@@ -6,8 +6,6 @@ $username_err = $password_err = $email_err = $confirm_password_err = "";
 $interest = "nature;plant;rose;lily;dark";
  
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    
- 
     if(empty($_POST["username"])){
         $username_err = "Please enter a username.";
     } else{
@@ -17,7 +15,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             while($row = mysqli_fetch_row($result)){
                 $nextID = $row[0];
             }
-            $nextID++;
+        $nextID++;
     
     
         // if($stmt = mysqli_prepare($link, $sql)){
@@ -44,7 +42,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($_POST["email"])){
         $email_err = "Please enter an email";
     }
+    else{
+        $email = trim($_POST["email"]);
+    }
 
+    if(empty(trim($_POST["username"]))){
+        $username_err = "Enter the username ";     
+    } 
+    else{
+        $username = trim($_POST["username"]);
+    }
 
     if(empty(trim($_POST["password"]))){
         $password_err = "Please enter a password.";     
@@ -64,33 +71,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-       
-        $sql = "INSERT INTO users VALUES($nextID,'$email','$name','$password','$interest')";
-        print_r($nextID.$email.$name.$password.$interest); 
+        $sql = "INSERT INTO users VALUES ($nextID,'$email','$username','$password','$interest')";
+
         if(mysqli_query($link,$sql)){
+            sleep(3);
             header("location: login.php");
         }else{
             echo "wrong something wrong in insertion";
-            print_r($nextID.$email.$name.$password.$interest); 
-        
         }
-         
         // if($stmt = mysqli_prepare($link, $sql)){
         //     mysqli_stmt_bind_param($stmt, "issss", $param_id, $param_username, $param_password, $param_interest);
-          
         //     $param_username = $username;
         //     $param_password = password_hash($password, PASSWORD_DEFAULT);
-            
         //     if(mysqli_stmt_execute($stmt)){
         //         header("location: login.php");
         //     } else{
         //         echo "Something went wrong. Please try again later.";
         //     }
         // }
-         
         // mysqli_stmt_close($stmt);
     }
-    
     mysqli_close($link);
 }
 ?>
@@ -125,12 +125,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
                         <label>Email</label>
-                        <input type="email" name="email" class="form-control" value="<?php echo $email; ?>">
+                        <input type="email" name="email" class="form-control" >
                         <span class="help-block"><?php echo $email_err; ?></span>
                 </div>  
-                    <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+                    <div class="form-group">
                         <label>Username</label>
-                        <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
+                        <input type="text" name="username" class="form-control">
                         <span class="help-block"><?php echo $username_err; ?></span>
                     </div>    
                     <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">

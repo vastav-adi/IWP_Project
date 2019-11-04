@@ -35,12 +35,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err)){
 
 
-        $query = "SELECT username, id from users WHERE username='$username' AND password='$password'";
+        $query = "SELECT name, id from users WHERE name='$username' AND password='$password'";
         $myResult = mysqli_query($link,$query);
         var_dump($myResult);
-        if(mysqli_num_rows($myResult)==true){
+        if(mysqli_num_rows($myResult)){
             $_SESSION["loggedin"] = true;
-            $_SESSION["id"] = $id;
+            $_SESSION["id"] = $myResult[1];
             $_SESSION["username"] = $username;
         }
         else{

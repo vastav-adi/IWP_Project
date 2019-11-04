@@ -85,5 +85,7 @@ $card = "
 echo $card;
 ?>
 
+<a href="welcome.php">Go back to welcome</a>
+
 </body>
 </html>
