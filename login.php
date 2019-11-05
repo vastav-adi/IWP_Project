@@ -10,7 +10,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
  
 // Include config file
 require_once "db_Connect.php";
- 
+
 // Define variables and initialize with empty values
 $username = $password = "";
 $username_err = $password_err = "";
@@ -33,22 +33,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     if(empty($username_err) && empty($password_err)){
-
-
         $query = "SELECT name, id from users WHERE name='$username' AND password='$password'";
         $myResult = mysqli_query($link,$query);
-        var_dump($myResult);
+        $myResultArr = $myResult->fetch_array(MYSQLI_NUM);
+        //var_dump($myResult);
         if(mysqli_num_rows($myResult)){
             $_SESSION["loggedin"] = true;
-            $_SESSION["id"] = $myResult[1];
+            $_SESSION["id"] = $myResultArr[1];
             $_SESSION["username"] = $username;
         }
         else{
             echo "oops something isnt right";
         }
-        
-        //$sql = "SELECT id, username, password FROM users WHERE username = ?";
-        
+    //$sql = "SELECT id, username, password FROM users WHERE username = ?";
     //     if($stmt = mysqli_prepare($link, $sql)){
     //         mysqli_stmt_bind_param($stmt, "s", $param_username);
             

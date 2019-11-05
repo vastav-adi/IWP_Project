@@ -16,20 +16,32 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
  
 </head>
 <body>
+    <div class="card" style="width:60%; padding:2%">
     <div class="container" >
-        <form enctype="multipart/form-data" method="post">
+        <form enctype="multipart/form-data" method="post" action="upload.php">
         <div class="form-group">
             <label for="Input">Image</label>
             <input type="file" name="fileToUpload" class="form-control" id="ImageFile" aria-describedby="ImageFileHelp" placeholder="Choose the file to pbe uploaded">
             <small id="ImageFileHelp" class="form-text text-muted">Choose only PNG or JPG < 2MB size</small>
         </div>
+        <div class="form-group">
+            <label for="Input">Title</label>
+            <input type="text" name="titlePhoto" class="form-control" id="imageText" aria-describedby="ImageFileHelp" placeholder="Enter the title for your image">        
+        </div>
+        <div class="form-group">
+            <label for="Input">Body</label>
+            <input type="text" name="bodyPhoto" class="form-control" id="imageBody" aria-describedby="ImageFileHelp" placeholder="Enter the body text for your image">        
+        </div>
+        
         <button type="submit" class="btn btn-primary" >Submit</button>
         </form>
     </div>
-
+    </div>
 <?php
 $target_dir = "upload/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+
+echo $target_file . "<br/>";
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 // Check if image file is a actual image or fake image
@@ -60,6 +72,10 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
     $uploadOk = 0;
 }
 // Check if $uploadOk is set to 0 by an error
+
+$filePath = "";
+
+print_r($_FILES['fileToUpload']);
 if ($uploadOk == 0) {
     echo "Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
@@ -70,7 +86,7 @@ if ($uploadOk == 0) {
     } else {
         echo "Sorry, there was an error uploading your file.";
     }
-}
+}   
 $cardTitle = "F";
 $cardBody="dolr irmaet";
 
